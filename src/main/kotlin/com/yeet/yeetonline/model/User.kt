@@ -1,15 +1,28 @@
 package com.yeet.yeetonline.model
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
+import java.io.Serializable
 import java.time.Instant
+import javax.persistence.*
 
-@Table("USER")
-data class User(
-    @Id
-    val id: Long? = null,
-    val username: String,
-    val passwordHash: String,
-    val dateCreated: Instant,
-    val dateUpdated: Instant
-)
+@Entity
+@Table(name = "USERS")
+open class User : Serializable {
+
+    @get:Id
+    @get:GeneratedValue(generator = "users_id")
+    @get:Column(name = "id")
+    @get:SequenceGenerator(name="users_id", sequenceName = "users_id", initialValue = 1, allocationSize = 1)
+    var id: Long? = null
+
+    @get:Column(name = "username")
+    var username: String = ""
+
+    @get:Column(name = "password_hash")
+    var passwordHash: String = ""
+
+    @get:Column(name = "date_created")
+    var dateCreated: Instant = Instant.now()
+
+    @get:Column(name = "date_updated")
+    var dateUpdated: Instant = Instant.now()
+}
