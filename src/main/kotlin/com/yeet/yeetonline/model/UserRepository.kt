@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository: PagingAndSortingRepository<User, Long>, JpaRepository<User, Long> {
-
+    fun findUserByUsername(username: String): User?
 }

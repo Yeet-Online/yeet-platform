@@ -19,7 +19,7 @@ configurations {
 }
 
 flyway {
-	url = "jdbc:h2:./database"
+	url = "jdbc:h2:./db/database"
 }
 
 repositories {
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	// implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
@@ -37,6 +37,8 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")

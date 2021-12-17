@@ -1,5 +1,6 @@
 package com.yeet.yeetonline.model
 
+import org.springframework.util.DigestUtils
 import java.io.Serializable
 import java.time.Instant
 import javax.persistence.*
@@ -25,4 +26,8 @@ open class User : Serializable {
 
     @get:Column(name = "date_updated")
     var dateUpdated: Instant = Instant.now()
+
+    companion object {
+        fun hashPassword(password: String): String = DigestUtils.md5DigestAsHex(password.toByteArray())
+    }
 }
