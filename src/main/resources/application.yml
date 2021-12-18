@@ -11,13 +11,3 @@ spring:
   flyway:
     locations: classpath:db/migration
     fail-on-missing-locations: true
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: da8e21d4f1dca53d1fa4
-            client-secret: 9f38df111171209cc2d01a64c5e95ffa0a2a9404
-    user:
-      name: admin
-      password: password
