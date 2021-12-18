@@ -46,7 +46,7 @@ class UserController {
     fun login(
         @RequestParam username: String,
         @RequestParam password: String
-    ): String {
+    ): Any {
 
         val user = userRepo.findUserByUsername(username)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
@@ -55,7 +55,9 @@ class UserController {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password failure")
         }
 
-        return getJWTFromUserId(user.id!!)
+        return object {
+            val accessToken = getJWTFromUserId(user.id!!)
+        }
     }
 
     @Secured(USER)

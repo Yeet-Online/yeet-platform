@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface YeetRepository: PagingAndSortingRepository<Yeet, Long>, JpaRepository<Yeet, Long> {
     fun findYeetsByUserId(userId: Long, pageable: Pageable): Page<Yeet>
+    fun findYeetById(id: Long): Yeet
 }

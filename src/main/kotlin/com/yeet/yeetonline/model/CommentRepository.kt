@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CommentRepository: PagingAndSortingRepository<Comment, Long>, JpaRepository<Comment, Long> {
     fun findCommentsByYeetId(id: Long, pageable: Pageable): Page<Comment>
+    fun findCommentById(id: Long): Comment
 }
