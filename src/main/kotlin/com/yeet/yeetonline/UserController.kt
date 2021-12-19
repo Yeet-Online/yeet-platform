@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
@@ -68,17 +69,25 @@ class UserController {
 
     @Secured(USER)
     @ResponseBody
-    @PostMapping("/self")
+    @GetMapping("/self")
     fun getSelf(): User {
         val ret = requiredAuthenticatedUser()
         return ret
     }
 
     @ResponseBody
-    @PostMapping("/get-user")
+    @GetMapping("/get-user")
     fun getUser(
         @RequestParam id: Long
     ): User {
         return userRepo.findUserById(id)
+    }
+
+    @ResponseBody
+    @GetMapping("/get-user-by-username")
+    fun getUserByUsername(
+        @RequestParam username: String
+    ): User? {
+        return userRepo.findUserByUsername(username)
     }
 }

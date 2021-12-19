@@ -1,6 +1,7 @@
 package com.yeet.yeetonline
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationProvider
@@ -12,9 +13,9 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.firewall.StrictHttpFirewall
 import org.springframework.stereotype.Component
-import org.springframework.web.servlet.config.annotation.CorsRegistry
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
 
 
 @Configuration
@@ -63,16 +64,22 @@ class WebConfig : WebSecurityConfigurerAdapter() {
             .exceptionHandling()
     }
 
-    @Configuration
-    class MyConfiguration {
-        @Bean
-        fun corsConfigurer(): WebMvcConfigurer {
-            return object : WebMvcConfigurerAdapter() {
-                override fun addCorsMappings(registry: CorsRegistry) {
-                    registry.addMapping("/**")
-                }
-            }
-        }
+    @Bean
+    fun corsFilter(): FilterRegistrationBean<CorsFilter> {
+        val source = UrlBasedCorsConfigurationSource()
+        val config = CorsConfiguration()
+        config.allowCredentials = true
+        config.addAllowedOrigin("http://localhost:4200")
+        config.addAllowedOrigin("http://localhost:3000")
+        config.addAllowedHeader("*")
+        config.allowedMethods = listOf(
+            "GET", "OPTIONS", "POST", "PUT", "DELETE", "PATCH"
+        )
+        config.allowedOriginPatterns = listOf("*")
+        source.registerCorsConfiguration("/**", config)
+        val bean = FilterRegistrationBean(CorsFilter(source))
+        bean.order = 0
+        return bean
     }
 }
 

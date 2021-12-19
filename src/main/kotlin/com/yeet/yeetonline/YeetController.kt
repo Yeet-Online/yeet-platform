@@ -49,6 +49,39 @@ class YeetController {
 
     @Secured(USER)
     @ResponseBody
+    @GetMapping("/get-users-posts")
+    fun getUsersPosts(
+        @RequestParam userId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): YeetResults {
+        val pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending())
+        val results =  yeetRepo.findYeetsByUserId(userId, pageable)
+        return YeetResults(
+            results = results.content,
+            page = results.pageable.pageNumber,
+            size = results.pageable.pageSize
+        )
+    }
+
+    @ResponseBody
+    @GetMapping("/get-users-posts-by-username")
+    fun getUsersPostsByUsername(
+        @RequestParam username: String,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") size: Int
+    ): YeetResults {
+        val pageable = PageRequest.of(page, size, Sort.by("dateCreated").descending())
+        val results =  yeetRepo.findYeetByUser_Username(username, pageable)
+        return YeetResults(
+            results = results.content,
+            page = results.pageable.pageNumber,
+            size = results.pageable.pageSize
+        )
+    }
+
+    @Secured(USER)
+    @ResponseBody
     @PostMapping("/post-yeet")
     fun postYeet(
         @RequestParam content: String
