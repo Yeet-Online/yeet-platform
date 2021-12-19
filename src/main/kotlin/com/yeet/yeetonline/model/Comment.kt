@@ -14,8 +14,9 @@ open class Comment : Serializable {
     @get:SequenceGenerator(name="comments_id", sequenceName = "comments_id", initialValue = 1, allocationSize = 1)
     var id: Long? = null
 
-    @get:Column(name = "user_id")
-    var userId: Long? = null
+    @get:ManyToOne(fetch = FetchType.EAGER)
+    @get:JoinColumn(name = "user_id", referencedColumnName = "id")
+    lateinit var user: User
 
     @get:Column(name = "yeet_id")
     var yeetId: Long? = null

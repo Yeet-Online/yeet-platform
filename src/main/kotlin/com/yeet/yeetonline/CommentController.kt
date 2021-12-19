@@ -29,7 +29,6 @@ class CommentController {
     @Autowired
     lateinit var commentRepo: CommentRepository
 
-    @Secured(USER)
     @ResponseBody
     @GetMapping("/get-comments-by-yeet-id")
     fun getCommentsByYeetId(
@@ -57,7 +56,7 @@ class CommentController {
 
         var comment = Comment()
         comment.yeetId = yeetId
-        comment.userId = user.id!!
+        comment.user = user!!
         comment.content = content
 
         comment = commentRepo.save(comment)
@@ -74,7 +73,7 @@ class CommentController {
         val user = requiredAuthenticatedUser()
         val comment = commentRepo.findCommentById(id)
 
-        if(user.id != comment.userId) {
+        if(user.id != comment.user.id) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to delete this comment")
         }
 
@@ -91,7 +90,7 @@ class CommentController {
         val user = requiredAuthenticatedUser()
         val comment = commentRepo.findCommentById(id)
 
-        if(user.id != comment.userId) {
+        if(user.id != comment.user.id) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to edit this comment")
         }
 

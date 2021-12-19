@@ -136,7 +136,6 @@ class YeetController {
         return updatedYeet
     }
 
-    @Secured(USER)
     @ResponseBody
     @GetMapping("/get-yeet")
     fun getYeet(
