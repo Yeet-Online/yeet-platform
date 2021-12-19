@@ -56,7 +56,7 @@ class YeetController {
         val user = requiredAuthenticatedUser()
 
         var yeet = Yeet()
-        yeet.userId = user.id!!
+        yeet.user = user
         yeet.content = content
 
         yeet = yeetRepo.save(yeet)
@@ -73,7 +73,7 @@ class YeetController {
         val user = requiredAuthenticatedUser()
         val yeet = yeetRepo.findYeetById(id)
 
-        if(user.id != yeet.userId) {
+        if(user.id != yeet.user.id) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to delete this post")
         }
 
@@ -90,7 +90,7 @@ class YeetController {
         val user = requiredAuthenticatedUser()
         val yeet = yeetRepo.findYeetById(id)
 
-        if(user.id != yeet.userId) {
+        if(user.id != yeet.user.id) {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to edit this post")
         }
 

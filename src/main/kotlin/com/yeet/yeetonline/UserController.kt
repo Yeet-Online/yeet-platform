@@ -2,19 +2,17 @@ package com.yeet.yeetonline
 
 import com.yeet.yeetonline.model.User
 import com.yeet.yeetonline.model.UserRepository
-import com.yeet.yeetonline.model.Yeet
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.context.SecurityContext
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.client.HttpServerErrorException
 import org.springframework.web.server.ResponseStatusException
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+
 
 @Controller
 class UserController {
@@ -55,8 +53,16 @@ class UserController {
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password failure")
         }
 
+        val userRet = object {
+            val id = user.id
+            val username = user.username
+            val dateCreated = user.dateCreated
+            val dateUpdated = user.dateUpdated
+        }
+
         return object {
             val accessToken = getJWTFromUserId(user.id!!)
+            val user = userRet
         }
     }
 
@@ -66,5 +72,13 @@ class UserController {
     fun getSelf(): User {
         val ret = requiredAuthenticatedUser()
         return ret
+    }
+
+    @ResponseBody
+    @PostMapping("/get-user")
+    fun getUser(
+        @RequestParam id: Long
+    ): User {
+        return userRepo.findUserById(id)
     }
 }

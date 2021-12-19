@@ -1,6 +1,7 @@
 package com.yeet.yeetonline
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -11,6 +12,10 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.firewall.StrictHttpFirewall
 import org.springframework.stereotype.Component
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
+
 
 @Configuration
 @EnableGlobalMethodSecurity(
@@ -56,6 +61,18 @@ class WebConfig : WebSecurityConfigurerAdapter() {
             }
             .authenticationProvider(YeetAuthProvider())
             .exceptionHandling()
+    }
+
+    @Configuration
+    class MyConfiguration {
+        @Bean
+        fun corsConfigurer(): WebMvcConfigurer {
+            return object : WebMvcConfigurerAdapter() {
+                override fun addCorsMappings(registry: CorsRegistry) {
+                    registry.addMapping("/**")
+                }
+            }
+        }
     }
 }
 
