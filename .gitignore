@@ -1,0 +1,6 @@
+database.mv.db
+database.trace.db
+.DS_Store
+.gradle/
+build/
+.idea/
