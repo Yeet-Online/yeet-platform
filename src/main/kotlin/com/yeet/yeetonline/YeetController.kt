@@ -107,7 +107,7 @@ class YeetController {
         val yeet = yeetRepo.findYeetById(id)
 
         if(user.id != yeet.user.id) {
-            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to delete this post")
+            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized to delete this yeet")
         }
 
         yeetRepo.deleteById(id)
