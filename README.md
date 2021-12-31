@@ -12,3 +12,10 @@ All you have to do to get the platform running is cd into your platform director
 ```
 
 That will install all the dependencies and start the platform. Super simple, like it should be.
+<<<<<<< HEAD
+=======
+
+## Using Swagger
+
+If you wanted to use the api directly via swagger, first run it locally (see above steps) then go here in your browser: [http://localhost:8080/swagger-ui/#/](http://localhost:8080/swagger-ui/#/)
+>>>>>>> develop
